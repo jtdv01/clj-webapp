@@ -9,8 +9,17 @@
 ;; :uri :host :headers :remote-addr :body
 ;;
 (defn example-handler [req]
-  {:body (pr-str req)})
+    (cookie-handler req))
 
+(defn file-handler [req]
+    {:body (java.io.File ".gitignore")
+    :status 500})
+
+(defn cookie-handler [req]
+    {:headers {"Location" "http://github.com"
+        "Set-cookie" "test=1"}
+        :status 500
+    })
 (defn on-init []
     (println "Initialising web app"))
 
