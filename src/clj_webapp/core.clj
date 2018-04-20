@@ -9,7 +9,10 @@
 ;; :uri :host :headers :remote-addr :body
 ;;
 (defn example-handler [req]
-    (cookie-handler req))
+  {:body "Hello clojure"})
+
+(defn uri-handler [{:keys [uri] :as req}]
+  {:body (str "URI is:" uri)} )
 
 (defn file-handler [req]
     {:body (java.io.File ".gitignore")
