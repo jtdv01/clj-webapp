@@ -8,8 +8,14 @@
 ;; Request handlers
 ;; :uri :host :headers :remote-addr :body
 ;;
+(defn file-handler [req]
+    {:body (java.io.File. "test.txt")
+     :status 500})
+
 (defn example-handler [req]
-  (default-handler req))
+  (file-handler req) 
+  (cookie-handler req))
+  ;;  (default-handler req))
   ;;{:body "Hello clojure"})
 
 (defn default-handler [req]
@@ -18,13 +24,10 @@
 (defn uri-handler [{:keys [uri] :as req}]
   {:body (str "URI is:" uri)} )
 
-(defn file-handler [req]
-    {:body (java.io.File ".gitignore")
-    :status 500})
 
 (defn cookie-handler [req]
     {:headers {"Location" "http://github.com"
-        "Set-cookie" "test=1"}
+        "Set-cookie" "monster=32"}
         :status 500
     })
 (defn on-init []
