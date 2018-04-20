@@ -9,7 +9,11 @@
 ;; :uri :host :headers :remote-addr :body
 ;;
 (defn example-handler [req]
-  {:body "Hello clojure"})
+  (default-handler req))
+  ;;{:body "Hello clojure"})
+
+(defn default-handler [req]
+  {:body (pr-str req)})
 
 (defn uri-handler [{:keys [uri] :as req}]
   {:body (str "URI is:" uri)} )
