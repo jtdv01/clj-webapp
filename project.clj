@@ -8,6 +8,6 @@
 
   :plugins [[lein-ring "0.12.4"]] 
 
-  :ring {:handler clj-webapp.core/example-handler}
+  :ring {:handler clj-webapp.core/route-handler}
 
   )
