@@ -1,4 +1,5 @@
-(ns clj-webapp.core)
+(ns clj-webapp.core
+  (:require [clj-webapp.handlers :as handlers]))
 
 (defn foo
   "I don't do a whole lot."
@@ -37,13 +38,9 @@
 (defn on-destroy []
     (println "Shutting down webapp"))
 
-(defn test1-handler [req]
-  {:body "test1"})
-
-(defn test2-handler [req]
-  {:status 301 :headers {"Location" "http://github.com"}})
 
 (defn route-handler [req]
   (condp = (:uri req)
-    "/test1" (test1-handler req)
-    "/test2" (test2-handler req)))
+    "/test1" (handlers/test1-handler req)
+    "/test2" (handlers/test2-handler req)
+    "/test3" (handlers/handler3 req)))
