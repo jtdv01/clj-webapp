@@ -9,3 +9,5 @@
 (defn handler3 [req]
   {:body "this is handler3"})
 
+(defn emptyhandler [req]
+  {:body "Not found m8" :status 404})

@@ -43,4 +43,14 @@
   (condp = (:uri req)
     "/test1" (handlers/test1-handler req)
     "/test2" (handlers/test2-handler req)
-    "/test3" (handlers/handler3 req)))
+    "/test3" (handlers/handler3 req)
+    (handlers/emptyhandler req)))
+
+;; Wrap the `route-handler` in a try catch
+(defn wrapping-handler [req]
+  (try
+    (if-let [resp (route-handler req)]
+      resp
+        {:status 404 :body (str "CANNOT FOIND PAGE:" (:uri req))})
+    (catch Throwable e
+    {:status 500 :body (apply str (interpose "\n" (.getStackTrace e)))})))
