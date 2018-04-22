@@ -9,10 +9,11 @@
   :plugins [[lein-ring "0.12.4"]] 
 
   :ring {
-         :handler clj-webapp.core/wrapping-handler
+         :handler clj-webapp.core/full-handler
+         ;;:handler clj-webapp.core/wrapping-handler
          ;;:handler clj-webapp.core/route-handler
          :init clj-webapp.core/on-init
          :port 4001
-         :destroy clj-webapp/on-destroy}
-
+         :destroy clj-webapp.core/on-destroy
+         }
   )

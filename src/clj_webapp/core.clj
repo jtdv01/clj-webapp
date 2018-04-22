@@ -32,10 +32,10 @@
   {:body (str "URI is:" uri)} )
 
 
-(defn on-init []
+(defn on-init [& x]
     (println "Initialising web app"))
 
-(defn on-destroy []
+(defn on-destroy [& x]
     (println "Shutting down webapp"))
 
 
@@ -44,13 +44,27 @@
     "/test1" (handlers/test1-handler req)
     "/test2" (handlers/test2-handler req)
     "/test3" (handlers/handler3 req)
-    (handlers/emptyhandler req)))
+    nil))
+    ;;(handlers/emptyhandler req)))
+
+
+
 
 ;; Wrap the `route-handler` in a try catch
 (defn wrapping-handler [req]
   (try
     (if-let [resp (route-handler req)]
+      ;; Throw a response 404 of the uri of the req
       resp
         {:status 404 :body (str "CANNOT FOIND PAGE:" (:uri req))})
+    ;; Catch on nil 
     (catch Throwable e
-    {:status 500 :body (apply str (interpose "\n" (.getStackTrace e)))})))
+      {:status 500 :body (apply str (interpose "\n" (.getStackTrace e)))})))
+
+;; Middleware
+(defn simple-log-middleware [handler]
+  (fn [{:keys [uri] :as req}]
+    (println "Request path:" uri)
+    (handler req)))
+(def full-handler
+  (simple-log-middleware wrapping-handler))
